@@ -57,6 +57,7 @@ namespace Biblioteca
             labelMensajeSocioCreado.Visible = false;
             checkBoxSocioComun.Checked = false;
             checkBoxSocioVIP.Checked = false;
+            labelNombreSocio.Text = "Nombre Socio:";
             labelApellidoSocio.Text = "Apellido:";
             labelIdentificacionSocio.Text = "Identificacion:";
             labelMensajeError.Text = "Coloca correctamente los valores en los espacios de texto y selecione algun tipo de socio";
@@ -229,6 +230,7 @@ namespace Biblioteca
             labelMensajeError.Visible = false;
 
             //button crear libro
+            labelNombreSocio.Text = "Nombre de Libro";
             labelApellidoSocio.Text = "Autor:";
             labelIdentificacionSocio.Text = "Codigo:";
             labelCantidad.Visible = true;
@@ -337,7 +339,7 @@ namespace Biblioteca
                 //mostrar botones y el de crear tambien
             }
             catch
-            {
+            {   labelMensajeError.Text = "Verifica si la informacion ingresada es correcta";
                 labelMensajeError.Visible = true;
             }
         }
