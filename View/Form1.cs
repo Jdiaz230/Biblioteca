@@ -379,7 +379,16 @@ namespace Biblioteca
             try
             {
                 numeroEdicion1 = int.Parse(textBoxEdicion1.Text);
-                ubic1 = textBoxUbicacion1.Text;
+                if (textBoxUbicacion1.Text == "") 
+                {
+                    labelMensajeError.Text = "Ingresa correctamente los valores de el espacio 1 " + "\n";
+                    labelMensajeError.Visible = true;
+                }
+                else
+                {
+                    ubic1 = textBoxUbicacion1.Text;
+                }
+                
 
             }
             catch
@@ -392,7 +401,15 @@ namespace Biblioteca
             try
             {
                 numeroEdicion2 = int.Parse(textBoxEdicion2.Text);
-                ubic2 = textBoxUbicacion2.Text;
+                if (textBoxUbicacion2.Text == "")
+                {
+                    labelMensajeError.Text = "Ingresa correctamente los valores de el espacio 2 " + "\n";
+                    labelMensajeError.Visible = true;
+                }
+                else
+                {
+                    ubic2 = textBoxUbicacion2.Text;
+                }
 
             }
             catch
@@ -408,7 +425,15 @@ namespace Biblioteca
             try
             {
                 numeroEdicion3 = int.Parse(textBoxEdicion3.Text);
-                ubic3 = textBoxUbicacion3.Text;
+                if (textBoxUbicacion3.Text == "")
+                {
+                    labelMensajeError.Text = "Ingresa correctamente los valores de el espacio 3 " + "\n";
+                    labelMensajeError.Visible = true;
+                }
+                else
+                {
+                    ubic3 = textBoxUbicacion3.Text;
+                }
 
             }
             catch
@@ -921,6 +946,7 @@ namespace Biblioteca
 
 
         }
+
         private void buttonConsultarEjemplar_Click(object sender, EventArgs e)
         {
             labelMensajeError.Text = "El nombre del libro no existe...";
