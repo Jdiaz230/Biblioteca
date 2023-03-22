@@ -19,11 +19,14 @@ namespace Biblioteca
         {
             InitializeComponent();
         }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             labelMensajeError.Visible = false;
             
         }
+        
+        #region Crear Socio
 
         private void buttonCrearSocio_Click(object sender, EventArgs e)
         {
@@ -193,6 +196,10 @@ namespace Biblioteca
             //corregir error de cuando esta chekeado
             checkBoxSocioComun.Visible = !checkBoxSocioVIP.Checked ;
         }
+
+        #endregion
+
+        #region Crear Libro
 
         private void buttonCrearLibro_Click(object sender, EventArgs e)
         {
@@ -508,6 +515,10 @@ namespace Biblioteca
             
         }
 
+        #endregion
+        
+        #region Prestar Ejemplar
+
         private void buttonPrestarEjemplar_Click(object sender, EventArgs e)
         {
             //limpiar textbox
@@ -579,75 +590,6 @@ namespace Biblioteca
             buttonConsultarEjemplar.Visible = false;
         }
 
-        private void buttonBuscarSocio_Click(object sender, EventArgs e)
-        {
-            try {
-
-                
-                string target = textBoxNombreSocio.Text;
-
-                
-                    if (co.BuscarSocio(target))
-                    {
-                        labelApellidoSocio.Visible = true;
-                        textBoxApellidoSocio.Text = "";
-                        textBoxApellidoSocio.Visible = true;
-                        buttonBuscarLibro.Visible = true;
-                        labelMensajeError.Visible = false;
-                    }
-                    else
-                    {
-                        labelMensajeError.Text = "Socio no encontrado ";
-                        labelApellidoSocio.Visible = false;
-                        textBoxApellidoSocio.Visible = false;
-                        labelMensajeError.Visible = true;
-                    }
-               
-
-            }
-            catch {
-                labelMensajeError.Text = "Socio no encontrado o campo vacio";
-                labelMensajeError.Visible = true;
-               
-
-            }
-        }
-
-        private void buttonBuscarLibro_Click(object sender, EventArgs e)
-        {
-            //por alguna razon no me encuentra correctamente el libro, cantidad  0
-            try
-            {
-
-                string target = textBoxApellidoSocio.Text;
-
-                string cantidad = co.BuscarLibro(target);
-
-               
-
-
-                    if (cantidad != "libro no encontrado")
-                    {
-                        buttonAgregarPrestamo.Visible = true;
-                        labelMensajeDeCantidad.Text = "Cantidad disponible: "+ cantidad;
-                        labelMensajeError.Visible = false;
-                    }
-                    else
-                    {  
-                        labelMensajeError.Visible = true;
-                    }   
-
-            }
-            catch
-            {
-                labelMensajeError.Text = "libro no encontrado o campo vacio";
-                labelMensajeError.Visible = true;
-                
-
-
-            }
-        }
-
         private void buttonAgregarPrestamo_Click(object sender, EventArgs e)
         {
             string socio = textBoxNombreSocio.Text;
@@ -708,6 +650,10 @@ namespace Biblioteca
 
             }
         }
+
+        #endregion
+
+        #region Devolucion de ejemplar
 
         private void buttonDevolver_Click(object sender, EventArgs e)
         {
@@ -781,69 +727,112 @@ namespace Biblioteca
             buttonConsultarEjemplar.Visible = false;
         }
 
-        private void buttonHistorial_Click(object sender, EventArgs e)
+        private void buttonMostrarlistaEjemplares_Click(object sender, EventArgs e)
         {
-
-            label1.Text = co.MostrarHistorialDePrestamos();
-            label1.Visible = true;
-
-            //button crear socio
-            textBoxNombreSocio.Visible = false;
-            textBoxApellidoSocio.Visible = false;
-            textBoxIdentificacionSocio.Visible = false;
-            labelNombreSocio.Visible = false;
-            labelApellidoSocio.Visible = false;
-            labelIdentificacionSocio.Visible = false;
-            checkBoxSocioComun.Visible = false;
-            checkBoxSocioVIP.Visible = false;
-            buttonAgregarSocio.Visible = false;
-            labelMensajeSocioCreado.Visible = false;
             labelMensajeError.Visible = false;
-
-            //button crear libro
-            labelNombreSocio.Text = "Nombre del socio:";
-            labelApellidoSocio.Text = "Nombre del libro:";
-            labelCantidad.Visible = false;
-            textBoxCantidad.Visible = false;
-            buttonAgregarEjemplar.Visible = false;
-            labelMjsLibroCreado.Visible = false;
-            buttonAgregarLibro.Visible = false;
-
-            //button crear ejemplar
-            labelEjemplar1.Visible = false;
-            labelEdicion1.Visible = false;
-            labelUbicacio1.Visible = false;
-            labelEjemplar2.Visible = false;
-            labelEdicion2.Visible = false;
-            labelUbicacion2.Visible = false;
-            labelEjemplar3.Visible = false;
-            labelEdicion3.Visible = false;
-            labelUbicacion3.Visible = false;
-
-            textBoxEdicion1.Visible = false;
-            textBoxUbicacion1.Visible = false;
-            textBoxEdicion2.Visible = false;
-            textBoxUbicacion2.Visible = false;
-            textBoxEdicion3.Visible = false;
-            textBoxUbicacion3.Visible = false;
+            try {
+               
+                if(textBoxNombreSocio.Text == "")
+                {
+                    labelMensajeError.Text = "Socio no encontrado o campo vacio";
+                    labelMensajeError.Visible= true;
+                }
+                else
+                {
+                    labelMensajeError.Visible = false;
+                }
 
 
-            labelMjsLibroCreado.Visible = false;
+            } catch
+            {
+                labelMensajeError.Text = "Socio no encontrado o campo vacio";
+                labelMensajeError.Visible = false;
+            }
 
-            //button prestar libro
-            buttonBuscarSocio.Visible = false;
-            buttonBuscarLibro.Visible = false;
+            if (!labelMensajeError.Visible)
+            {
+                
+                if (co.BuscarSocio(textBoxNombreSocio.Text))
+                {
 
-            //button devolver libro
-            dataGridView1.Visible = false;
-            buttonMostrarlistaEjemplares.Visible = false;
-            labelMensajeDeCantidad.Text = "";
+                    //revisar si se puede delegar a controlador
+                    foreach (Socio so in Biblioteca.ListaSocios)
+                    {
+                        if (so.Nombre == textBoxNombreSocio.Text)
+                        {
+                            if(so.EjemplaresRetirados.Count > 0) {
 
-            //button consulta
+                                dataGridView1.Visible = true;
+                                dataGridView1.Rows.Clear();
 
-            buttonConsultorCupo.Visible = false;
-            buttonConsultarEjemplar.Visible = false;
+                                foreach (Ejemplar ej in so.EjemplaresRetirados)
+                                {
+
+                                    //creo columna
+                                    int n = dataGridView1.Rows.Add();
+
+                                    //colocamos info
+                                    foreach (Libro li in Biblioteca.ListaLibros)
+                                    {
+                                        if (li.Codigo == ej.CodigoLibro)
+                                        {
+                                            dataGridView1.Rows[n].Cells[0].Value = li.Nombre;
+                                        }
+
+                                    }
+                                    dataGridView1.Rows[n].Cells[1].Value = ej.NumEdicion;
+                                    dataGridView1.Rows[n].Cells[2].Value = ej.Ubicacion;
+                                }
+                            }
+                            else
+                            {
+                                dataGridView1.Visible = false;
+                                labelMensajeError.Text = "El socio no ha retirado aún libros de la biblioteca o ya devolvio todos";
+                                labelMensajeError.Visible = true;
+                            }
+                           
+                        }
+
+                    }
+
+                }
+                else
+                {
+                    dataGridView1.Visible = false;
+                    labelMensajeError.Text = "El socio no ha sido encontrado";
+                    labelMensajeError.Visible = true;
+                }
+            }
+            
         }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //limpiar el texto una vez termine la accion del boton
+            if (e.ColumnIndex == 3)
+            {
+                int rowIndex = e.RowIndex;
+                string nombre = textBoxNombreSocio.Text;
+
+                if (co.DevolverEjemplar(rowIndex, nombre)) {
+
+                    MessageBox.Show("Haz devuelto el ejemplar " + dataGridView1.Rows[e.RowIndex].Cells[0].Value);
+                    dataGridView1.Rows.Clear();
+                    dataGridView1.Visible = false;
+                }
+                else
+                {
+                    MessageBox.Show("La casilla que seleccionaste no continene info ");
+                    dataGridView1.Rows.Clear();
+                    dataGridView1.Visible = false;
+                }
+                
+            }
+        }
+
+        #endregion
+        
+        #region Consultar info
 
         private void buttonConsulta_Click(object sender, EventArgs e)
         {
@@ -979,110 +968,144 @@ namespace Biblioteca
             }
         }
 
-        private void buttonMostrarlistaEjemplares_Click(object sender, EventArgs e)
+        #endregion
+
+        #region Historias y busqueda de socio,libro
+
+        private void buttonBuscarSocio_Click(object sender, EventArgs e)
         {
-            labelMensajeError.Visible = false;
             try {
-               
-                if(textBoxNombreSocio.Text == "")
-                {
-                    labelMensajeError.Text = "Socio no encontrado o campo vacio";
-                    labelMensajeError.Visible= true;
-                }
-                else
-                {
-                    labelMensajeError.Visible = false;
-                }
 
-
-            } catch
-            {
-                labelMensajeError.Text = "Socio no encontrado o campo vacio";
-                labelMensajeError.Visible = false;
-            }
-
-            if (!labelMensajeError.Visible)
-            {
                 
-                if (co.BuscarSocio(textBoxNombreSocio.Text))
-                {
+                string target = textBoxNombreSocio.Text;
 
-                    //revisar si se puede delegar a controlador
-                    foreach (Socio so in Biblioteca.ListaSocios)
+                
+                    if (co.BuscarSocio(target))
                     {
-                        if (so.Nombre == textBoxNombreSocio.Text)
-                        {
-                            if(so.EjemplaresRetirados.Count > 0) {
-
-                                dataGridView1.Visible = true;
-                                dataGridView1.Rows.Clear();
-
-                                foreach (Ejemplar ej in so.EjemplaresRetirados)
-                                {
-
-                                    //creo columna
-                                    int n = dataGridView1.Rows.Add();
-
-                                    //colocamos info
-                                    foreach (Libro li in Biblioteca.ListaLibros)
-                                    {
-                                        if (li.Codigo == ej.CodigoLibro)
-                                        {
-                                            dataGridView1.Rows[n].Cells[0].Value = li.Nombre;
-                                        }
-
-                                    }
-                                    dataGridView1.Rows[n].Cells[1].Value = ej.NumEdicion;
-                                    dataGridView1.Rows[n].Cells[2].Value = ej.Ubicacion;
-                                }
-                            }
-                            else
-                            {
-                                dataGridView1.Visible = false;
-                                labelMensajeError.Text = "El socio no ha retirado aún libros de la biblioteca o ya devolvio todos";
-                                labelMensajeError.Visible = true;
-                            }
-                           
-                        }
-
+                        labelApellidoSocio.Visible = true;
+                        textBoxApellidoSocio.Text = "";
+                        textBoxApellidoSocio.Visible = true;
+                        buttonBuscarLibro.Visible = true;
+                        labelMensajeError.Visible = false;
                     }
+                    else
+                    {
+                        labelMensajeError.Text = "Socio no encontrado ";
+                        labelApellidoSocio.Visible = false;
+                        textBoxApellidoSocio.Visible = false;
+                        labelMensajeError.Visible = true;
+                    }
+               
 
-                }
-                else
-                {
-                    dataGridView1.Visible = false;
-                    labelMensajeError.Text = "El socio no ha sido encontrado";
-                    labelMensajeError.Visible = true;
-                }
             }
-            
+            catch {
+                labelMensajeError.Text = "Socio no encontrado o campo vacio";
+                labelMensajeError.Visible = true;
+               
+
+            }
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void buttonBuscarLibro_Click(object sender, EventArgs e)
         {
-            //limpiar el texto una vez termine la accion del boton
-            if (e.ColumnIndex == 3)
+            //por alguna razon no me encuentra correctamente el libro, cantidad  0
+            try
             {
-                int rowIndex = e.RowIndex;
-                string nombre = textBoxNombreSocio.Text;
 
-                if (co.DevolverEjemplar(rowIndex, nombre)) {
+                string target = textBoxApellidoSocio.Text;
 
-                    MessageBox.Show("Haz devuelto el ejemplar " + dataGridView1.Rows[e.RowIndex].Cells[0].Value);
-                    dataGridView1.Rows.Clear();
-                    dataGridView1.Visible = false;
-                }
-                else
-                {
-                    MessageBox.Show("La casilla que seleccionaste no continene info ");
-                    dataGridView1.Rows.Clear();
-                    dataGridView1.Visible = false;
-                }
+                string cantidad = co.BuscarLibro(target);
+
+               
+
+
+                    if (cantidad != "libro no encontrado")
+                    {
+                        buttonAgregarPrestamo.Visible = true;
+                        labelMensajeDeCantidad.Text = "Cantidad disponible: "+ cantidad;
+                        labelMensajeError.Visible = false;
+                    }
+                    else
+                    {  
+                        labelMensajeError.Visible = true;
+                    }   
+
+            }
+            catch
+            {
+                labelMensajeError.Text = "libro no encontrado o campo vacio";
+                labelMensajeError.Visible = true;
                 
+
+
             }
         }
 
-        
+        private void buttonHistorial_Click(object sender, EventArgs e)
+        {
+
+            label1.Text = co.MostrarHistorialDePrestamos();
+            label1.Visible = true;
+
+            //button crear socio
+            textBoxNombreSocio.Visible = false;
+            textBoxApellidoSocio.Visible = false;
+            textBoxIdentificacionSocio.Visible = false;
+            labelNombreSocio.Visible = false;
+            labelApellidoSocio.Visible = false;
+            labelIdentificacionSocio.Visible = false;
+            checkBoxSocioComun.Visible = false;
+            checkBoxSocioVIP.Visible = false;
+            buttonAgregarSocio.Visible = false;
+            labelMensajeSocioCreado.Visible = false;
+            labelMensajeError.Visible = false;
+
+            //button crear libro
+            labelNombreSocio.Text = "Nombre del socio:";
+            labelApellidoSocio.Text = "Nombre del libro:";
+            labelCantidad.Visible = false;
+            textBoxCantidad.Visible = false;
+            buttonAgregarEjemplar.Visible = false;
+            labelMjsLibroCreado.Visible = false;
+            buttonAgregarLibro.Visible = false;
+
+            //button crear ejemplar
+            labelEjemplar1.Visible = false;
+            labelEdicion1.Visible = false;
+            labelUbicacio1.Visible = false;
+            labelEjemplar2.Visible = false;
+            labelEdicion2.Visible = false;
+            labelUbicacion2.Visible = false;
+            labelEjemplar3.Visible = false;
+            labelEdicion3.Visible = false;
+            labelUbicacion3.Visible = false;
+
+            textBoxEdicion1.Visible = false;
+            textBoxUbicacion1.Visible = false;
+            textBoxEdicion2.Visible = false;
+            textBoxUbicacion2.Visible = false;
+            textBoxEdicion3.Visible = false;
+            textBoxUbicacion3.Visible = false;
+
+
+            labelMjsLibroCreado.Visible = false;
+
+            //button prestar libro
+            buttonBuscarSocio.Visible = false;
+            buttonBuscarLibro.Visible = false;
+
+            //button devolver libro
+            dataGridView1.Visible = false;
+            buttonMostrarlistaEjemplares.Visible = false;
+            labelMensajeDeCantidad.Text = "";
+
+            //button consulta
+
+            buttonConsultorCupo.Visible = false;
+            buttonConsultarEjemplar.Visible = false;
+        }
+
+        #endregion
 
         #region Validacion de textos 
 
@@ -1096,8 +1119,6 @@ namespace Biblioteca
                 return;
             }
         }
-
-
 
         private void textBoxApellidoSocio_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -1128,6 +1149,7 @@ namespace Biblioteca
                 return;
             }
         }
+
         private void textBoxUbicacion3_KeyPress(object sender, KeyPressEventArgs e)
         {
             if ((e.KeyChar >= 32 && e.KeyChar <= 64) || (e.KeyChar >= 91 && e.KeyChar <= 96) || (e.KeyChar >= 123 && e.KeyChar <= 255))
@@ -1194,10 +1216,16 @@ namespace Biblioteca
             }
         }
 
-
-
-
         #endregion
+       
+
+        
+
+       
+
+        
+
+        
 
        
     }
